@@ -2,6 +2,8 @@ language : node_js
 node_js :
  - stable
 install:
- - npm install
+ - yarn install
+build:
+ - yarn build 
 script:
- - npm test
+ - yarn test
