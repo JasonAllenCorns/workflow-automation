@@ -3,7 +3,6 @@ node_js :
  - stable
 install:
  - yarn install
-build:
  - yarn build 
 script:
  - yarn test
