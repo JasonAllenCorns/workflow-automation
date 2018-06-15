@@ -84,6 +84,35 @@ describe('Workflow', () => {
         workflow.next();
         console.log(JSON.stringify(workflowObject));
         expect(workflow.isFinished()).to.be.true;
-    })
+    });
 
+
+    it('should go from start to end with events', () => {
+        var eventCount = 0;
+
+        var start = new Start('start');
+        var end = new End('end');
+
+
+        var transition = new Transition('start to end');
+        transition.inState = start;
+        transition.outState = end;
+        transition.emitter.on(Transition.ON_ENTER_EVENT_NAME, (args) => {
+            expect(args).to.be.deep.equal(end);
+            eventCount++;
+        });
+        transition.emitter.on(Transition.ON_EXIT_EVENT_NAME, (args) => {
+            expect(args).to.be.deep.equal(start);
+            eventCount++;
+        });
+
+        var workflow = createWorkflow(start, end, [transition]);
+
+        var workflowObject = {};
+        workflow.init(workflowObject);
+
+        workflow.next();
+
+        expect(eventCount).to.be.eq(2);
+    });
 });
