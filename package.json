@@ -8,7 +8,7 @@
     "build": "tsc",
     "watch": "tsc --watch",
     "test": "mocha --reporter spec",
-    "cover": "istanbul cover node_modules/mocha/bin/_mocha test/*.js - - -R spec"
+    "cover": "istanbul cover node_modules/mocha/bin/_mocha dist/test/*.js - - -R spec"
   },
   "repository": {
     "type": "git",
@@ -21,14 +21,19 @@
   },
   "homepage": "https://github.com/kostkams/workflow-automation#readme",
   "devDependencies": {
+    "@types/chai": "^4.1.4",
     "@types/lodash": "^4.14.109",
+    "@types/mocha": "^5.2.2",
+    "@types/uuid": "^3.4.3",
     "chai": "^4.1.2",
     "coveralls": "^3.0.1",
     "istanbul": "^0.4.5",
     "mocha": "^5.2.0",
+    "ts-node": "^6.1.1",
     "typescript": "^2.9.2"
   },
   "dependencies": {
-    "lodash": "^4.17.10"
+    "lodash": "^4.17.10",
+    "uuid": "^3.2.1"
   }
 }

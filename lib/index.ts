@@ -1,2 +1,1 @@
-export class Test {
-}
+import {Workflow} from "./workflow";
