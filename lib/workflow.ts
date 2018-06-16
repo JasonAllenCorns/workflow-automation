@@ -1,6 +1,4 @@
 import * as _ from "lodash";
-import { Start } from "./start";
-import { End } from "./end";
 import { Transition } from "./transition";
 import { WorkflowState } from "./workflowState";
 import { StateBase } from "./state_base";
@@ -43,18 +41,38 @@ export class Workflow {
             throw new Error ('call init() first');
         }
 
-        _.forEach(this.transitions, (trans) => {
-           trans.next();
+        var transitionsToHandle = _.filter(this.transitions, (trans: Transition) => {
+           return trans.inState.tokenCount > 0;
         });
 
+
         var newWorkflowState = new WorkflowState();
-        newWorkflowState.currentStates = _.filter(this.getStatesFromTransitions(this.transitions),
+        newWorkflowState.handledStates = this.workflowObject[this.namespace].handledStates;
+
+        _.forEach(transitionsToHandle, (trans) => {
+           trans.next(newWorkflowState);
+        });
+
+
+        newWorkflowState.handledStates = _.unionBy(newWorkflowState.handledStates, (state: StateBase) => {
+            return state.uuid;
+        });
+        newWorkflowState.currentStates = _.unionBy(_.filter(this.getStatesFromTransitions(this.transitions),
             (state: StateBase) => {
             return state.tokenCount > 0;
+        }), (state: StateBase) => {
+            return state.uuid
         });
 
         this.workflowObject[this.namespace] = newWorkflowState;
 
+        if (this.isFinished()){
+            var endState = _.find(this.transitions, (trans: Transition) => {
+                return _.has(trans.outState,'isEnd');
+            }).outState;
+            endState.handled();
+            this.workflowObject[this.namespace].handledStates.push(endState);
+        }
     }
 
     public isFinished() : boolean {
@@ -62,11 +80,11 @@ export class Workflow {
             throw new Error ('call init() first');
         }
 
-        var statesWithTokens = _.filter(this.workflowObject[this.namespace].currentStates, (state: StateBase) => {
-            return  state.tokenCount > 0;
+        var statesWithTokens = _.find(this.workflowObject[this.namespace].currentStates, (state: StateBase) => {
+            return  state.tokenCount > 0 && _.has(state,'isEnd');
         });
 
-        return statesWithTokens.length === 1 && statesWithTokens[0].isEnd != null;
+        return statesWithTokens != null;
     }
 
     private getStatesFromTransitions(trans: Transition[]) : StateBase[] {
