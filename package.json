@@ -8,6 +8,7 @@
     "build": "tsc",
     "watch": "tsc --watch",
     "test": "nyc mocha test/*.ts",
+    "cover-local": "nyc report --reporter=html",
     "cover": "nyc report --reporter=lcov"
   },
   "nyc": {
@@ -16,6 +17,7 @@
       ".tsx"
     ],
     "exclude": [
+      "example/**/*",
       "**/*.d.ts",
       "**/*.js"
     ],

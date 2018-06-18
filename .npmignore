@@ -1,2 +1,6 @@
 lib/
+test/
 coverage/
+example/
+.idea/
+.nyc_output/
