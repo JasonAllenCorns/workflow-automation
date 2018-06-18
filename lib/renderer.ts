@@ -10,7 +10,7 @@ export class Renderer {
     private initialized: boolean;
 
     public init(transitions: Transition[]) {
-        var nodeArray = _.uniqWith(Transition.getStatesFromTransitions(transitions), (state:StateBase) => state.uuid);
+        var nodeArray = _.uniqBy(Transition.getStatesFromTransitions(transitions), 'uuid');
         this.nodes = new vis.DataSet(_.map(nodeArray, (state: StateBase) => {
             return {id: state.uuid, label: state.name};
         }));
