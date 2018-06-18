@@ -1,19 +1,19 @@
 import { expect } from 'chai';
 import { it, describe } from "mocha";
-import { Workflow } from "../lib/workflow";
-import { Start } from "../lib/start";
-import { End } from "../lib/end";
-import { Transition } from "../lib/transition";
-import { SimpleState } from "../lib/simple_state";
-import { ParallelState } from "../lib/parallel_state";
-import { CollectState } from "../lib/collect_state";
+import { Workflow, WorkflowState } from "../lib";
+import { Start } from "../lib";
+import { End } from "../lib";
+import { Transition } from "../lib";
+import { SimpleState } from "../lib";
+import { ParallelState } from "../lib";
+import { CollectState } from "../lib";
 
 describe('Workflow', () => {
 
     var createWorkflow = function (start: Start, end: End, transitions: Transition[]) {
         var workflow = new Workflow();
 
-        workflow.namespace = 'Test';
+        workflow.namespace = 'Test 1';
         workflow.transitions = transitions;
 
         return workflow;
@@ -28,7 +28,7 @@ describe('Workflow', () => {
         var workflow = new Workflow();
         expect(() => workflow.init(null)).to.throw('namespace must not be null');
 
-        workflow.namespace = 'Test';
+        workflow.namespace = 'Test 2 4';
         expect(() => workflow.init(null)).to.throw('transitions must have');
 
         workflow.transitions = [];
@@ -59,6 +59,9 @@ describe('Workflow', () => {
         var workflowObject = {};
         workflow.init(workflowObject);
 
+        expect((<WorkflowState>workflowObject[workflow.namespace]).currentStates.length).to.be.equal(1);
+
+        workflow.next();
         workflow.next();
 
         expect(workflow.isFinished()).to.be.true;

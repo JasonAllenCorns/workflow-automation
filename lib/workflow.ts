@@ -4,8 +4,16 @@ import { WorkflowState } from "./workflowState";
 import { StateBase } from "./state_base";
 
 export class Workflow {
+    get namespace(): string {
+        return this._namespace;
+    }
+
+    set namespace(value: string) {
+        this._namespace = _.replace(value, RegExp(" ", "g"), '_');
+    }
+
     public transitions: Transition[];
-    public namespace: string;
+    private _namespace: string;
 
     private workflowObject: any;
 
@@ -16,7 +24,7 @@ export class Workflow {
 
 
     public init(workflowObject: any) {
-        if (this.namespace == null || this.namespace.length == 0) {
+        if (this._namespace == null || this._namespace.length == 0) {
             throw new Error('namespace must not be null');
         }
         if (this.transitions == null || this.transitions.length == 0) {
@@ -26,9 +34,15 @@ export class Workflow {
             throw new Error('workflowObject must not be null');
         }
 
-        if (workflowObject[this.namespace] == null) {
+        if (workflowObject[this._namespace] == null) {
             var workflowState = new WorkflowState();
-            workflowObject[this.namespace] = workflowState;
+
+            var startTrans = _.find(this.transitions, (trans: Transition) => _.has(trans.inState, 'isStart'));
+            if (startTrans != null) {
+                workflowState.currentStates = [startTrans.inState];
+            }
+
+            workflowObject[this._namespace] = workflowState;
         }
 
         this.workflowObject = workflowObject;
@@ -38,19 +52,19 @@ export class Workflow {
 
     public next() {
         if (!this.initialized) {
-            throw new Error ('call init() first');
+            throw new Error('call init() first');
         }
 
         var transitionsToHandle = _.filter(this.transitions, (trans: Transition) => {
-           return trans.inState.tokenCount > 0;
+            return trans.inState.tokenCount > 0;
         });
 
 
         var newWorkflowState = new WorkflowState();
-        newWorkflowState.handledStates = this.workflowObject[this.namespace].handledStates;
+        newWorkflowState.handledStates = this.workflowObject[this._namespace].handledStates;
 
         _.forEach(transitionsToHandle, (trans) => {
-           trans.next(newWorkflowState);
+            trans.next(newWorkflowState);
         });
 
 
@@ -59,39 +73,43 @@ export class Workflow {
         });
         newWorkflowState.currentStates = _.unionBy(_.filter(this.getStatesFromTransitions(this.transitions),
             (state: StateBase) => {
-            return state.tokenCount > 0;
-        }), (state: StateBase) => {
-            return state.uuid
+                return state.tokenCount > 0;
+            }), (state: StateBase) => {
+            return state.uuid;
         });
 
-        this.workflowObject[this.namespace] = newWorkflowState;
+        this.workflowObject[this._namespace] = newWorkflowState;
 
-        if (this.isFinished()){
+        if (this.isFinished()) {
             var endState = _.find(this.transitions, (trans: Transition) => {
-                return _.has(trans.outState,'isEnd');
+                return _.has(trans.outState, 'isEnd');
             }).outState;
+
             endState.handled();
-            this.workflowObject[this.namespace].handledStates.push(endState);
+
+            if (_.find(this.workflowObject[this._namespace].handledStates, (state: StateBase) => _.has(state, 'isEnd')) == null) {
+                this.workflowObject[this._namespace].handledStates.push(endState);
+            }
         }
     }
 
-    public isFinished() : boolean {
+    public isFinished(): boolean {
         if (!this.initialized) {
-            throw new Error ('call init() first');
+            throw new Error('call init() first');
         }
 
-        var statesWithTokens = _.find(this.workflowObject[this.namespace].currentStates, (state: StateBase) => {
-            return  state.tokenCount > 0 && _.has(state,'isEnd');
+        var statesWithTokens = _.find(this.workflowObject[this._namespace].currentStates, (state: StateBase) => {
+            return state.tokenCount > 0 && _.has(state, 'isEnd');
         });
 
         return statesWithTokens != null;
     }
 
-    private getStatesFromTransitions(trans: Transition[]) : StateBase[] {
+    private getStatesFromTransitions(trans: Transition[]): StateBase[] {
 
         var items = _.flatMap(this.transitions, (trans: Transition) => {
             return [trans.inState, trans.outState];
-        })
+        });
 
         return items;
     }
