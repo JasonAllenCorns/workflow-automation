@@ -24,7 +24,7 @@
     "lodash": "^4.17.10",
     "materialize-css": "^0.100.2",
     "rxjs": "^6.0.0",
-    "workflow-automation": "^0.0.5",
+    "workflow-automation": "^0.0.6",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {

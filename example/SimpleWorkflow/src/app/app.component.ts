@@ -38,6 +38,9 @@ export class AppComponent implements OnInit {
     this.workflow.namespace = 'simple_workflow';
     this.workflow.init(this.workflowObject);
     this.setCurrentState();
+
+    var container = document.getElementById('visualization');
+    this.workflow.render(container);
   }
 
   next() {
