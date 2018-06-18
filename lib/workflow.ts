@@ -2,6 +2,7 @@ import * as _ from "lodash";
 import { Transition } from "./transition";
 import { WorkflowState } from "./workflowState";
 import { StateBase } from "./state_base";
+import { Renderer } from "./renderer";
 
 export class Workflow {
     get namespace(): string {
@@ -16,6 +17,8 @@ export class Workflow {
     private _namespace: string;
 
     private workflowObject: any;
+
+    private renderer: Renderer;
 
     private initialized: boolean;
 
@@ -71,7 +74,7 @@ export class Workflow {
         newWorkflowState.handledStates = _.unionBy(newWorkflowState.handledStates, (state: StateBase) => {
             return state.uuid;
         });
-        newWorkflowState.currentStates = _.unionBy(_.filter(this.getStatesFromTransitions(this.transitions),
+        newWorkflowState.currentStates = _.unionBy(_.filter(Transition.getStatesFromTransitions(this.transitions),
             (state: StateBase) => {
                 return state.tokenCount > 0;
             }), (state: StateBase) => {
@@ -105,12 +108,18 @@ export class Workflow {
         return statesWithTokens != null;
     }
 
-    private getStatesFromTransitions(trans: Transition[]): StateBase[] {
+    public render(container: HTMLElement) {
+        if (!this.initialized) {
+            throw new Error('call init() first');
+        }
 
-        var items = _.flatMap(this.transitions, (trans: Transition) => {
-            return [trans.inState, trans.outState];
-        });
+        if (this.renderer == null){
+            this.renderer = new Renderer();
+            this.renderer.init(this.transitions);
+        }
 
-        return items;
+        this.renderer.render(container);
     }
+
+
 }

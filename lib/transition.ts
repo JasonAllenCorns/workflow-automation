@@ -52,8 +52,14 @@ export class Transition extends Base {
             this.emitter.emit(Transition.ON_ENTER_EVENT_NAME, this.outState);
 
         }
+    }
 
-        //console.log(`in (${this.inState.name}): ${this.inState.tokenCount}`);
-        //console.log(`out (${this.outState.name}): ${this.outState.tokenCount}`);
+    public static getStatesFromTransitions(transitions: Transition[]): StateBase[] {
+
+        var items = _.flatMap(transitions, (trans: Transition) => {
+            return [trans.inState, trans.outState];
+        });
+
+        return items;
     }
 }
