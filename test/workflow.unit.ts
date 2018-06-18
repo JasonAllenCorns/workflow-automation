@@ -6,6 +6,7 @@ import { End } from "../lib/end";
 import { Transition } from "../lib/transition";
 import { SimpleState } from "../lib/simple_state";
 import { ParallelState } from "../lib/parallel_state";
+import { CollectState } from "../lib/collect_state";
 
 describe('Workflow', () => {
 
@@ -83,11 +84,9 @@ describe('Workflow', () => {
         workflow.init(workflowObject);
 
         workflow.next();
-        console.log(JSON.stringify(workflowObject));
         expect(workflow.isFinished()).to.be.false;
 
         workflow.next();
-        console.log(JSON.stringify(workflowObject));
         expect(workflow.isFinished()).to.be.true;
     });
 
@@ -144,11 +143,9 @@ describe('Workflow', () => {
         workflow.init(workflowObject);
 
         workflow.next();
-        console.log(JSON.stringify(workflowObject));
         expect(workflow.isFinished()).to.be.false;
 
         workflow.next();
-        console.log(JSON.stringify(workflowObject));
         expect(workflow.isFinished()).to.be.false;
     });
 
@@ -173,14 +170,40 @@ describe('Workflow', () => {
         workflow.init(workflowObject);
 
         workflow.next();
-        console.log(JSON.stringify(workflowObject));
         workflow.next();
-        console.log(JSON.stringify(workflowObject));
         workflow.next();
-        console.log(JSON.stringify(workflowObject));
 
         expect(workflow.isFinished()).to.be.true;
         expect(workflowObject[workflow.namespace].currentStates.length).to.be.equal(1);
         expect(workflowObject[workflow.namespace].handledStates.length).to.be.equal(5);
+    });
+
+    it('should run a parallel with collect workflow', () => {
+        var start = new Start('start');
+        var end = new End('end');
+
+        var parallelState = new ParallelState('parallel', 2);
+
+        var collectState = new CollectState('collect', 2);
+
+        var transition1 = new Transition('trans 1', start, parallelState);
+        var transition2 = new Transition('trans 2', parallelState, collectState);
+        var transition3 = new Transition('trans 3', parallelState, collectState);
+        var transition4 = new Transition('trans 4', collectState, end);
+
+
+        var workflow = createWorkflow(start, end, [transition1, transition2, transition3, transition4]);
+
+        var workflowObject = {};
+        workflow.init(workflowObject);
+
+
+        workflow.next();
+        workflow.next();
+        workflow.next();
+
+        expect(workflow.isFinished()).to.be.true;
+        expect(workflowObject[workflow.namespace].currentStates.length).to.be.equal(1);
+        expect(workflowObject[workflow.namespace].handledStates.length).to.be.equal(4);
     });
 });

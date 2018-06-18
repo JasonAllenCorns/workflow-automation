@@ -4,6 +4,7 @@ import { StateBase } from "./state_base";
 import { Base } from "./base";
 import { WorkflowState } from "./workflowState";
 import { ParallelState } from "./parallel_state";
+import { CollectState } from "./collect_state";
 
 export class Transition extends Base {
     public static readonly ON_EXIT_EVENT_NAME = 'OnExit';
@@ -32,6 +33,14 @@ export class Transition extends Base {
 
         if (this.inState.tokenCount > 0 && (this.canTransition == null || this.canTransition(this.inState))) {
 
+            if (_.has(this.inState, 'isCollectState')) {
+                if ((<CollectState>this.inState).collectTokens < this.inState.tokenCount) {
+                    return;
+                }
+
+                this.inState.tokenCount = 1;
+            }
+
             this.emitter.emit(Transition.ON_EXIT_EVENT_NAME, this.inState);
 
             this.inState.handled();
@@ -44,7 +53,7 @@ export class Transition extends Base {
 
         }
 
-        console.log(`in (${this.inState.name}): ${this.inState.tokenCount}`);
-        console.log(`out (${this.outState.name}): ${this.outState.tokenCount}`);
+        //console.log(`in (${this.inState.name}): ${this.inState.tokenCount}`);
+        //console.log(`out (${this.outState.name}): ${this.outState.tokenCount}`);
     }
 }
