@@ -6486,9 +6486,9 @@ worker-farm@^1.5.2:
   dependencies:
     errno "~0.1.7"
 
-workflow-automation@^0.0.8:
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/workflow-automation/-/workflow-automation-0.0.8.tgz#d12664bba2a320839ee86ce5ae39dc9e3dc80deb"
+workflow-automation@^0.0.9:
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/workflow-automation/-/workflow-automation-0.0.9.tgz#2621260b684e3f7418347cb0413f2c0156a36110"
   dependencies:
     event-emitter "^0.3.5"
     lodash "^4.17.10"

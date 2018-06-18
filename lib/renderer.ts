@@ -32,7 +32,7 @@ export class Renderer {
             edges: this.edges
         }
 
-        new vis.Network(container, data);
+        new vis.Network(container, data,{});
 
     }
 }
