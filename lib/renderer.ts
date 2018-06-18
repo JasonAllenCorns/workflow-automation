@@ -18,6 +18,8 @@ export class Renderer {
         this.edges = new vis.DataSet(_.map(transitions, (trans: Transition) => {
             return {from: trans.inState.uuid, to: trans.outState.uuid, arrows: 'to'};
         }));
+
+        this.initialized = true;
     }
 
     public render(container: HTMLElement) {
