@@ -34,7 +34,7 @@ export class AppComponent implements OnInit {
     var transition3 = new Transition('transition 3', state2, end);
     var transition4 = new Transition('transition 3', end, start);
 
-    this.workflow.transitions = [transition1, transition2, transition3, transition4];
+    this.workflow.transitions = [transition1, transition2, transition3];
     this.workflow.namespace = 'simple_workflow';
     this.workflow.init(this.workflowObject);
     this.setCurrentState();
