@@ -48,6 +48,9 @@ export class AppComponent implements OnInit {
 
     this.setCurrentState();
     this.setHandledStates();
+
+    var container = document.getElementById('visualization');
+    this.workflow.render(container);
   }
 
   private setHandledStates() {
