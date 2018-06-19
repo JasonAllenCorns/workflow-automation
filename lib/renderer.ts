@@ -39,7 +39,11 @@ export class Renderer {
         }
 
         new vis.Network(container, data, {
-            interaction: {hover: true},
+            interaction: {
+                hover: true,
+                dragNodes: false,
+                dragView: false,
+            },
             layout: {
                 hierarchical: {
                     direction: 'LR'

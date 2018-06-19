@@ -6,5 +6,6 @@ export class Start extends StateBase {
     constructor(name: string) {
         super(name);
         this.tokenCount = 1;
+        this.isCurrent = true;
     }
 }
