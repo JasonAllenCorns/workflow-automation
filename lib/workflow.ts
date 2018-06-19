@@ -3,6 +3,7 @@ import { Transition } from "./transition";
 import { WorkflowState } from "./workflowState";
 import { StateBase } from "./state_base";
 import { Renderer } from "./renderer";
+import {RenderingOptions} from "./renderingOptions";
 
 export class Workflow {
     get namespace(): string {
@@ -108,7 +109,7 @@ export class Workflow {
         return statesWithTokens != null;
     }
 
-    public render(container: HTMLElement) {
+    public render(container: HTMLElement, options: RenderingOptions) {
         if (!this.initialized) {
             throw new Error('call init() first');
         }
@@ -117,7 +118,7 @@ export class Workflow {
             this.renderer = new Renderer();
         }
 
-        this.renderer.render(container, this.transitions);
+        this.renderer.render(container, this.transitions, options);
     }
 
 

@@ -2,6 +2,7 @@ import * as vis from 'vis';
 import * as _ from 'lodash';
 import {Transition} from "./transition";
 import {StateBase} from "./state_base";
+import {RenderingOptions} from "./renderingOptions";
 
 export class Renderer {
     private nodes;
@@ -9,13 +10,18 @@ export class Renderer {
 
     private initialized: boolean;
 
-    private init(container: HTMLElement, transitions: Transition[]) {
+    private init(container: HTMLElement, transitions: Transition[], options: RenderingOptions) {
         var nodeArray = _.uniqBy(Transition.getStatesFromTransitions(transitions), 'uuid');
-        this.nodes = new vis.DataSet(_.map(nodeArray, (state: StateBase) => {
+        this.nodes = new vis.DataSet(_.filter(_.map(nodeArray, (state: StateBase) => {
+            if ((options.hideEnd && _.has(state, 'isEnd'))
+                || (options.hideStart && _.has(state, 'isStart'))) {
+                return null;
+            }
+
             return {
                 id: state.uuid,
                 label: state.name,
-                color: 'grey',
+                color: options.stateColor,
                 shape: (_.has(state, 'isStart') || _.has(state, 'isEnd'))
                     ? 'circle'
                     : (_.has(state, 'isParallel')
@@ -24,7 +30,7 @@ export class Renderer {
                             ? 'triangleDown'
                             : 'square'))
             };
-        }));
+        }), state => state != null));
 
         this.edges = new vis.DataSet(_.map(transitions, (trans: Transition) => {
             return {
@@ -54,16 +60,16 @@ export class Renderer {
         this.initialized = true;
     }
 
-    public render(container: HTMLElement, transitions: Transition[]) {
+    public render(container: HTMLElement, transitions: Transition[], options: RenderingOptions) {
         if (!this.initialized) {
-            this.init(container, transitions);
+            this.init(container, transitions, options);
         }
 
         var nodeArray = _.uniqBy(Transition.getStatesFromTransitions(transitions), 'uuid');
         this.nodes.update(_.map(nodeArray, (state: StateBase) => {
             return {
                 id: state.uuid,
-                color: state.isCurrent ? 'greenyellow' : (state.isDone ? 'green' : 'grey'),
+                color: state.isCurrent ? options.currentStateColor : (state.isDone ? options.doneStateColor : options.stateColor),
             }
         }));
 
