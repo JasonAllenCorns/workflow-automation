@@ -42,7 +42,7 @@ export class Renderer {
                 from: trans.inState.uuid,
                 to: trans.outState.uuid, arrows: 'to'
             };
-        })), trans => trans != null);
+        }), trans => trans != null));
 
         var data = {
             nodes: this.nodes,
