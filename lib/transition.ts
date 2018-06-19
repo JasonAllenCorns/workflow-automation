@@ -49,7 +49,7 @@ export class Transition extends Base {
             this.outState.reset();
             this.outState.tokenCount++;
             this.outState.isCurrent = true;
-            
+
             workflowState.handledStates.push(this.inState);
 
             this.emitter.emit(Transition.ON_ENTER_EVENT_NAME, this.outState);

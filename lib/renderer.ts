@@ -7,14 +7,15 @@ export class Renderer {
     private nodes;
     private edges;
 
+    private initialized: boolean;
 
-    public init(transitions: Transition[]) {
+    private init(container: HTMLElement, transitions: Transition[]) {
         var nodeArray = _.uniqBy(Transition.getStatesFromTransitions(transitions), 'uuid');
         this.nodes = new vis.DataSet(_.map(nodeArray, (state: StateBase) => {
             return {
                 id: state.uuid,
                 label: state.name,
-                color: state.isCurrent ? 'greenyellow' : (state.isDone ? 'green' : 'white'),
+                color: 'grey',
                 shape: (_.has(state, 'isStart') || _.has(state, 'isEnd'))
                     ? 'circle'
                     : (_.has(state, 'isParallel')
@@ -31,11 +32,6 @@ export class Renderer {
                 to: trans.outState.uuid, arrows: 'to'
             };
         }));
-    }
-
-    public render(container: HTMLElement, transitions: Transition[]) {
-        this.init(transitions);
-
 
         var data = {
             nodes: this.nodes,
@@ -43,8 +39,29 @@ export class Renderer {
         }
 
         new vis.Network(container, data, {
-            interaction: {hover: true}
+            interaction: {hover: true},
+            layout: {
+                hierarchical: {
+                    direction: 'LR'
+                }
+            }
         });
+
+        this.initialized = true;
+    }
+
+    public render(container: HTMLElement, transitions: Transition[]) {
+        if (!this.initialized) {
+            this.init(container, transitions);
+        }
+
+        var nodeArray = _.uniqBy(Transition.getStatesFromTransitions(transitions), 'uuid');
+        this.nodes.update(_.map(nodeArray, (state: StateBase) => {
+            return {
+                id: state.uuid,
+                color: state.isCurrent ? 'greenyellow' : (state.isDone ? 'green' : 'grey'),
+            }
+        }));
 
     }
 }
