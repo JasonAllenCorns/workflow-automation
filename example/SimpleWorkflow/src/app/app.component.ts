@@ -7,6 +7,7 @@ import { SimpleState } from "workflow-automation/dist";
 import { WorkflowState } from "workflow-automation/dist";
 import * as _ from 'lodash';
 import { StateBase } from "workflow-automation/dist/state_base";
+import {RenderingOptions} from "workflow-automation/dist/";
 
 @Component({
   selector: 'app-root',
@@ -20,7 +21,16 @@ export class AppComponent implements OnInit {
   workflow: Workflow;
   workflowObject = {};
 
+  renderingOptions: RenderingOptions;
+
   ngOnInit(): void {
+    this.renderingOptions =  new RenderingOptions();
+    this.renderingOptions.hideStart = true;
+    this.renderingOptions.hideEnd = true;
+    this.renderingOptions.currentStateColor = 'red';
+    this.renderingOptions.doneStateColor = 'blue';
+    this.renderingOptions.stateColor = 'yellow';
+
     this.workflow = new Workflow();
 
     var start = new Start('start');
@@ -40,7 +50,7 @@ export class AppComponent implements OnInit {
     this.setCurrentState();
 
     var container = document.getElementById('visualization');
-    this.workflow.render(container);
+    this.workflow.render(container, this.renderingOptions);
   }
 
   next() {
@@ -50,7 +60,7 @@ export class AppComponent implements OnInit {
     this.setHandledStates();
 
     var container = document.getElementById('visualization');
-    this.workflow.render(container);
+    this.workflow.render(container, this.renderingOptions);
   }
 
   private setHandledStates() {
