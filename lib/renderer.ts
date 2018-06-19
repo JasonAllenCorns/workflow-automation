@@ -32,12 +32,17 @@ export class Renderer {
             };
         }), state => state != null));
 
-        this.edges = new vis.DataSet(_.map(transitions, (trans: Transition) => {
+        this.edges = new vis.DataSet(_.filter(_.map(transitions, (trans: Transition) => {
+            if ((options.hideEnd && _.has(trans.outState, 'isEnd'))
+                || (options.hideStart && _.has(trans.inState, 'isStart'))) {
+                return null;
+            }
+
             return {
                 from: trans.inState.uuid,
                 to: trans.outState.uuid, arrows: 'to'
             };
-        }));
+        })), trans => trans != null);
 
         var data = {
             nodes: this.nodes,

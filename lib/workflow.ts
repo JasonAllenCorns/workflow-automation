@@ -118,7 +118,9 @@ export class Workflow {
             this.renderer = new Renderer();
         }
 
-        this.renderer.render(container, this.transitions, options);
+        var o = options == null ?  new RenderingOptions() : options;
+
+        this.renderer.render(container, this.transitions, o);
     }
 
 
