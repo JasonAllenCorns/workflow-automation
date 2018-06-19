@@ -71,12 +71,16 @@ export class Renderer {
         }
 
         var nodeArray = _.uniqBy(Transition.getStatesFromTransitions(transitions), 'uuid');
-        this.nodes.update(_.map(nodeArray, (state: StateBase) => {
+        this.nodes.update(_.filter(_.map(nodeArray, (state: StateBase) => {
+            if ((options.hideEnd && _.has(state, 'isEnd'))
+                || (options.hideStart && _.has(state, 'isStart'))) {
+                return null;
+            }
             return {
                 id: state.uuid,
                 color: state.isCurrent ? options.currentStateColor : (state.isDone ? options.doneStateColor : options.stateColor),
             }
-        }));
+        }), state => state != null));
 
     }
 }
