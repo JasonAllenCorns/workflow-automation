@@ -118,7 +118,7 @@ export class Workflow {
             this.renderer.init(this.transitions);
         }
 
-        this.renderer.render(container);
+        this.renderer.render(container, this.transitions);
     }
 
 

@@ -3,7 +3,6 @@ import * as _ from "lodash";
 import { StateBase } from "./state_base";
 import { Base } from "./base";
 import { WorkflowState } from "./workflowState";
-import { ParallelState } from "./parallel_state";
 import { CollectState } from "./collect_state";
 
 export class Transition extends Base {
@@ -45,8 +44,12 @@ export class Transition extends Base {
 
             this.inState.handled();
             this.inState.tokenCount--;
+            this.inState.isCurrent = false;
+
             this.outState.reset();
             this.outState.tokenCount++;
+            this.outState.isCurrent = true;
+            
             workflowState.handledStates.push(this.inState);
 
             this.emitter.emit(Transition.ON_ENTER_EVENT_NAME, this.outState);

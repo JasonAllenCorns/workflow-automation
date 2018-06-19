@@ -1,14 +1,15 @@
 import { Base } from "./base";
 
 export class StateBase extends Base {
-    protected _handled: boolean;
-
-    public reset() {
-        this._handled = false;
-    }
+    public isDone: boolean;
+    public isCurrent: boolean;
 
     public handled() {
-        this._handled = true;
+        this.isDone = true;
+    }
+
+    public reset() {
+        this.isCurrent = false;
     }
 
     get tokenCount(): number {
