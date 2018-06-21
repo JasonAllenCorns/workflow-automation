@@ -1,12 +1,15 @@
-import { expect } from 'chai';
-import { it, describe } from "mocha";
-import { Workflow, WorkflowState } from "../lib";
-import { Start } from "../lib";
-import { End } from "../lib";
-import { Transition } from "../lib";
-import { SimpleState } from "../lib";
-import { ParallelState } from "../lib";
-import { CollectState } from "../lib";
+import {expect} from 'chai';
+import {it, describe} from "mocha";
+import {
+    Workflow,
+    WorkflowState,
+    Start,
+    End,
+    Transition,
+    SimpleState,
+    ParallelState,
+    CollectState
+} from "../index";
 
 describe('Workflow', () => {
 
