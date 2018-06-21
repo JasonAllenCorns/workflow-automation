@@ -6,6 +6,7 @@ The workflow functionality is based on tokens. If a state has min. 1 token. The 
 The whole library is written in TypeScript.
 
 ## Badges
+[![Gitter chat](https://badges.gitter.im/workflow-automation/lobby.png)](https://gitter.im/workflow-automation/lobby "Gitter chat")
 [![Build Status](https://travis-ci.org/kostkams/workflow-automation.svg?branch=master)](https://travis-ci.org/kostkams/workflow-automation)
 [![Coverage Status](https://coveralls.io/repos/github/kostkams/workflow-automation/badge.svg)](https://coveralls.io/github/kostkams/workflow-automation)
 
