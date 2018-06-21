@@ -1,13 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { Workflow } from "workflow-automation/dist";
-import { Start } from "workflow-automation/dist";
-import { End } from "workflow-automation/dist";
-import { Transition } from "workflow-automation/dist";
-import { SimpleState } from "workflow-automation/dist";
-import { WorkflowState } from "workflow-automation/dist";
+import {Component, OnInit} from '@angular/core';
 import * as _ from 'lodash';
-import { StateBase } from "workflow-automation/dist/state_base";
-import {RenderingOptions} from "workflow-automation/dist/";
+import {
+  Workflow,
+  Start,
+  End,
+  Transition,
+  SimpleState,
+  WorkflowState,
+  RenderingOptions
+} from "workflow-automation";
+import {StateBase} from "workflow-automation/dist/lib/state_base";
 
 @Component({
   selector: 'app-root',
@@ -24,7 +26,7 @@ export class AppComponent implements OnInit {
   renderingOptions: RenderingOptions;
 
   ngOnInit(): void {
-    this.renderingOptions =  new RenderingOptions();
+    this.renderingOptions = new RenderingOptions();
     this.renderingOptions.hideStart = true;
     this.renderingOptions.hideEnd = true;
     this.renderingOptions.currentStateColor = 'red';

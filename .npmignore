@@ -4,3 +4,4 @@ coverage/
 example/
 .idea/
 .nyc_output/
+index.ts
