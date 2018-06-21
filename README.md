@@ -14,7 +14,7 @@ Install via npm:
 
     $ npm install workflow-automation
     
-Install via yarm:
+Install via yarn:
 
     $ yarn add workflow-automation
     
