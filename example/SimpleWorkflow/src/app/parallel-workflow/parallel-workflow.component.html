@@ -2,8 +2,8 @@
   <h4>Parallel Workflow</h4>
   <div id="visParallel" style="height: 200px;"></div>
   <div>
-    <p>Current State: {{toString(workflowObject['Parallel'].currentStates)}}</p>
-    <p>Finished State: {{toString(workflowObject['Parallel'].handledStates)}}</p>
+    <p>Current State: {{toString(workflowObject['Parallel'] != null ? workflowObject['Parallel'].currentStates : null)}}</p>
+    <p>Finished State: {{toString(workflowObject['Parallel'] != null ? workflowObject['Parallel'].handledStates : null)}}</p>
   </div>
   <div class="center-align">
     <div class="btn-large" (click)="next()">Next</div>

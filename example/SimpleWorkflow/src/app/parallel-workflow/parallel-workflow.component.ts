@@ -7,7 +7,7 @@ import {
   SimpleState,
   Start, Transition,
   Workflow
-} from "workflow-automation";
+} from "../../../../../index";
 import {StateBase} from "workflow-automation/dist/lib/state_base";
 
 @Component({
@@ -26,6 +26,9 @@ export class ParallelWorkflowComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.renderingOptions = new RenderingOptions();
+    this.renderingOptions.layoutDirection = '';
+
     this.workflow = new Workflow();
 
     var start = new Start('start');
