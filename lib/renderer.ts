@@ -57,7 +57,7 @@ export class Renderer {
             },
             layout: {
                 hierarchical: {
-                    direction: 'LR'
+                    direction: options.layoutDirection
                 }
             }
         });

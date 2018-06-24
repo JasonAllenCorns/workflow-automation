@@ -4,7 +4,8 @@ export class RenderingOptions {
                 public hideEnd: boolean = false,
                 public currentStateColor: string = 'greenyellow',
                 public doneStateColor: string = 'green',
-                public stateColor: string = 'grey') {
+                public stateColor: string = 'grey',
+                public layoutDirection: string = 'LR') {
 
     }
 }
