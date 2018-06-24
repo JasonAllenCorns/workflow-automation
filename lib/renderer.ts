@@ -49,18 +49,23 @@ export class Renderer {
             edges: this.edges
         }
 
-        new vis.Network(container, data, {
+        var visOptions = {
             interaction: {
                 hover: true,
                 dragNodes: false,
                 dragView: false,
-            },
-            layout: {
+            }
+        };
+
+        if (options.layoutDirection != null && options.layoutDirection.length === 2) {
+            visOptions['layout'] = {
                 hierarchical: {
                     direction: options.layoutDirection
                 }
-            }
-        });
+            };
+        }
+
+        new vis.Network(container, data, visOptions);
 
         this.initialized = true;
     }
