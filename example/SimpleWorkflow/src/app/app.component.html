@@ -1,40 +1,11 @@
-<!--The content below is only a placeholder and can be replaced.-->
 <div style="text-align:center">
   <h3>
-    Welcome to {{ title }}!
+    Workflow Examples
   </h3>
+  <div class="divider"></div>
 </div>
-<div class="container">
-  <div class="center-align">
-    <div class="row">
-      <div class="col s3">
-        <div class="circle blue state valign-wrapper" [ngClass]="{ 'green' : currentState === 'start' }">
-          <h5 class="center-align">Start</h5>
-        </div>
-      </div>
-      <div class="col s3">
-        <div class="blue state valign-wrapper" [ngClass]="{ 'green' : currentState === 'state 1' }">
-          <h5 class="center-align">State 1</h5></div>
-      </div>
-      <div class="col s3">
-        <div class="blue state valign-wrapper" [ngClass]="{ 'green' : currentState === 'state 2' }">
-          <h5 class="center-align">State 2</h5></div>
-      </div>
-      <div class="col s3">
-        <div class="circle blue state valign-wrapper" [ngClass]="{ 'green' : currentState === 'end' }">
-          <h5 class="center-align">End</h5></div>
-      </div>
-    </div>
-  </div>
-  <div class="center-align">
-    <div class="btn-large" (click)="next()">Next</div>
-  </div>
-  <div class="">
-    <p>Current State: {{currentState}}</p>
-    <p>Finished States: {{finishedStates}}</p>
-  </div>
-
-  <div id="visualization" style="height: 200px;"></div>
-
-</div>
+<app-simple-workflow></app-simple-workflow>
+<div class="divider"></div>
+<app-parallel-workflow></app-parallel-workflow>
+<div class="divider"></div>
 <router-outlet></router-outlet>
