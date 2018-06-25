@@ -11,7 +11,7 @@
     "test": "nyc mocha test/*.ts",
     "cover-local": "nyc report --reporter=html",
     "cover": "nyc report --reporter=lcov",
-    "publish": "yarn clean && yarn build && npm version patch -m \"Version %s\" && npm publish"
+    "prepare_publish": "yarn clean && yarn build && npm version patch -m \"Version %s\""
   },
   "nyc": {
     "extension": [
