@@ -33,7 +33,7 @@ export class Transition extends Base {
         if (this.inState.tokenCount > 0 && (this.canTransition == null || this.canTransition(this.inState))) {
 
             if (_.has(this.inState, 'isCollectState')) {
-                if ((<CollectState>this.inState).collectTokens < this.inState.tokenCount) {
+                if ((<CollectState>this.inState).collectTokens > this.inState.tokenCount) {
                     return;
                 }
 
