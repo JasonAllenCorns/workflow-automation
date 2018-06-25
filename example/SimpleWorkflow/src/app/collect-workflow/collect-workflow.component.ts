@@ -8,7 +8,7 @@ import {
   Start,
   Transition,
   Workflow
-} from "../../../../../index";
+} from "workflow-automation";
 import * as _ from "lodash";
 import {StateBase} from "workflow-automation/dist/lib/state_base";
 

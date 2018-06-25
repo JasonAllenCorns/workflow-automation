@@ -6486,14 +6486,15 @@ worker-farm@^1.5.2:
   dependencies:
     errno "~0.1.7"
 
-workflow-automation@^0.0.22:
-  version "0.0.22"
-  resolved "https://registry.yarnpkg.com/workflow-automation/-/workflow-automation-0.0.22.tgz#18fe9b70363303b44b3a6b5ffed1bc85ef020d57"
+workflow-automation@^0.0.23:
+  version "0.0.23"
+  resolved "https://registry.yarnpkg.com/workflow-automation/-/workflow-automation-0.0.23.tgz#15cd1fb9c074ecf75e60b805cc23a12d47a4f7b7"
   dependencies:
     event-emitter "^0.3.5"
     lodash "^4.17.10"
     uuid "^3.2.1"
     vis "^4.21.0"
+    xml-js "^1.6.4"
 
 wrap-ansi@^2.0.0:
   version "2.1.0"
@@ -6523,6 +6524,12 @@ ws@^1.0.1:
 wtf-8@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/wtf-8/-/wtf-8-1.0.0.tgz#392d8ba2d0f1c34d1ee2d630f15d0efb68e1048a"
+
+xml-js@^1.6.4:
+  version "1.6.4"
+  resolved "https://registry.yarnpkg.com/xml-js/-/xml-js-1.6.4.tgz#fcf9fdc9fb6d691122a02fe5a55c30f84d93ab90"
+  dependencies:
+    sax "^1.2.4"
 
 xml2js@0.4.4:
   version "0.4.4"

@@ -7,7 +7,7 @@ import {
   SimpleState,
   Start, Transition,
   Workflow
-} from "../../../../../index";
+} from "workflow-automation";
 import {StateBase} from "workflow-automation/dist/lib/state_base";
 
 @Component({
