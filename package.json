@@ -5,11 +5,13 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
+    "clean": "rm -rf ./dist",
     "build": "tsc",
     "watch": "tsc --watch",
     "test": "nyc mocha test/*.ts",
     "cover-local": "nyc report --reporter=html",
-    "cover": "nyc report --reporter=lcov"
+    "cover": "nyc report --reporter=lcov",
+    "publish": "yarn clean && yarn build && npm version patch -m \"Version %s\" && npm publish"
   },
   "nyc": {
     "extension": [
