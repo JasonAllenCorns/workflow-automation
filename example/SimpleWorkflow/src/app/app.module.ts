@@ -5,12 +5,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SimpleWorkflowComponent } from './simple-workflow/simple-workflow.component';
 import { ParallelWorkflowComponent } from './parallel-workflow/parallel-workflow.component';
+import { CollectWorkflowComponent } from './collect-workflow/collect-workflow.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SimpleWorkflowComponent,
-    ParallelWorkflowComponent
+    ParallelWorkflowComponent,
+    CollectWorkflowComponent
   ],
   imports: [
     BrowserModule,

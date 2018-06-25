@@ -1,0 +1,11 @@
+<div class="container">
+  <h4>Collect Workflow</h4>
+  <div id="visCollect" style="height: 200px;"></div>
+  <div>
+    <p>Current State: {{toString(workflowObject['Collect'] != null ? workflowObject['Collect'].currentStates : null)}}</p>
+    <p>Finished State: {{toString(workflowObject['Collect'] != null ? workflowObject['Collect'].handledStates : null)}}</p>
+  </div>
+  <div class="center-align">
+    <div class="btn-large" (click)="next()">Next</div>
+  </div>
+</div>
