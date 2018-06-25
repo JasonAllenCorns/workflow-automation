@@ -4,6 +4,7 @@ import { WorkflowState } from "./workflowState";
 import { StateBase } from "./state_base";
 import { Renderer } from "./renderer";
 import {RenderingOptions} from "./renderingOptions";
+import {WorkflowImporter} from "./workflow_importer";
 
 export class Workflow {
     get namespace(): string {
@@ -26,6 +27,13 @@ export class Workflow {
     constructor() {
     }
 
+    public import(bpmnXml: string) {
+        if (bpmnXml == null || bpmnXml.length === 0) {
+            throw new Error ('bpmnXml must not be null');
+        }
+
+        this.transitions = new WorkflowImporter().import(bpmnXml);
+    }
 
     public init(workflowObject: any) {
         if (this._namespace == null || this._namespace.length == 0) {

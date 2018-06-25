@@ -10,6 +10,7 @@ import {
     ParallelState,
     CollectState
 } from "../index";
+import * as fs from "fs";
 
 describe('Workflow', () => {
 
@@ -212,4 +213,35 @@ describe('Workflow', () => {
         expect(workflowObject[workflow.namespace].currentStates.length).to.be.equal(1);
         expect(workflowObject[workflow.namespace].handledStates.length).to.be.equal(4);
     });
+
+    it('should import simple bpmn xml', () => {
+        var workflow = new Workflow();
+        var bpmnXml = fs.readFileSync('./test/bpmn_simple_test.xml')
+        expect(bpmnXml).is.not.undefined;
+        workflow.import(bpmnXml.toString());
+
+        expect(workflow.transitions.length).to.be.equal(3);
+
+        expect(workflow.transitions[0].inState.name).to.be.equal('StartEvent_1');
+        expect(workflow.transitions[0].inState['isStart']).to.be.true;
+        expect(workflow.transitions[0].inState['isEnd']).to.be.undefined;
+        expect(workflow.transitions[0].outState.name).to.be.equal('state 1');
+        expect(workflow.transitions[0].outState['isStart']).to.be.undefined;
+        expect(workflow.transitions[0].outState['isEnd']).to.be.undefined;
+
+        expect(workflow.transitions[1].inState.name).to.be.equal('state 1');
+        expect(workflow.transitions[1].inState['isStart']).to.be.undefined;
+        expect(workflow.transitions[1].inState['isEnd']).to.be.undefined;
+        expect(workflow.transitions[1].outState.name).to.be.equal('state 2');
+        expect(workflow.transitions[1].outState['isStart']).to.be.undefined;
+        expect(workflow.transitions[1].outState['isEnd']).to.be.undefined;
+
+        expect(workflow.transitions[2].inState.name).to.be.equal('state 2');
+        expect(workflow.transitions[2].inState['isStart']).to.be.undefined;
+        expect(workflow.transitions[2].inState['isEnd']).to.be.undefined;
+        expect(workflow.transitions[2].outState.name).to.be.equal('EndEvent_1bq9q5d');
+        expect(workflow.transitions[2].outState['isEnd']).to.be.true;
+        expect(workflow.transitions[2].outState['isStart']).to.be.undefined;
+
+    })
 });

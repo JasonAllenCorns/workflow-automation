@@ -30,31 +30,30 @@ export class Transition extends Base {
             throw new Error();
         }
 
-        if (this.inState.tokenCount > 0 && (this.canTransition == null || this.canTransition(this.inState))) {
+        if (!(this.inState.tokenCount > 0 && (this.canTransition == null || this.canTransition(this.inState)))) {
+            return;
+        }
 
-            if (_.has(this.inState, 'isCollectState')) {
-                if ((<CollectState>this.inState).collectTokens > this.inState.tokenCount) {
-                    return;
-                }
-
-                this.inState.tokenCount = 1;
+        if (_.has(this.inState, 'isCollectState')) {
+            if ((<CollectState>this.inState).collectTokens > this.inState.tokenCount) {
+                return;
             }
 
-            this.emitter.emit(Transition.ON_EXIT_EVENT_NAME, this.inState);
-
-            this.inState.handled();
-            this.inState.tokenCount--;
-            this.inState.isCurrent = false;
-
-            this.outState.reset();
-            this.outState.tokenCount++;
-            this.outState.isCurrent = true;
-
-            workflowState.handledStates.push(this.inState);
-
-            this.emitter.emit(Transition.ON_ENTER_EVENT_NAME, this.outState);
-
+            this.inState.tokenCount = 1;
         }
+        this.emitter.emit(Transition.ON_EXIT_EVENT_NAME, this.inState);
+
+        this.inState.handled();
+        this.inState.tokenCount--;
+        this.inState.isCurrent = false;
+        
+        this.outState.reset();
+        this.outState.tokenCount++;
+        this.outState.isCurrent = true;
+
+        workflowState.handledStates.push(this.inState);
+
+        this.emitter.emit(Transition.ON_ENTER_EVENT_NAME, this.outState);
     }
 
     public static getStatesFromTransitions(transitions: Transition[]): StateBase[] {
