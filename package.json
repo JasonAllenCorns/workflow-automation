@@ -11,6 +11,7 @@
     "test": "nyc mocha test/*.ts",
     "cover-local": "nyc report --reporter=html",
     "cover": "nyc report --reporter=lcov",
+    "generate-docs": "node ./node_modules/typedoc/bin/typedoc --module commonjs  --media media/ --target ES6 --json json.json --out doc/ --externalPattern '**/node_modules/**' --ignoreCompilerErrors lib/",
     "prepare_publish": "yarn clean && yarn build && npm version patch -m \"Version %s\""
   },
   "nyc": {
@@ -49,6 +50,7 @@
     "mocha-lcov-reporter": "^1.3.0",
     "nyc": "^11.7.1",
     "ts-node": "^6.1.1",
+    "typedoc": "^0.11.1",
     "typescript": "^2.9.2"
   },
   "dependencies": {
